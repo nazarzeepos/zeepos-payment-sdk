@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text Color 3-->
+    <color name="c12">#C7C7C7</color>
+    <color name="secondary">#56ADD5</color>
+    <color name="primary">#76C1E0</color>
+    <color name="popup_dialog_title">#858585</color>
+</resources>

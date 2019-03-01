@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:paddingTop="20dp"
+    android:paddingBottom="80dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_default_bg"
+    tools:ignore="MissingPrefix">
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/show_qr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/qr_code"
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/alert_dark_frame"
+            android:layout_width="400dp"
+            android:layout_height="400dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:id="@+id/status_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
+            android:text="@string/transaction_confirmed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_title"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction ID: 000000"/>
+        <ImageView
+            android:layout_marginTop="50dp"
+            app:srcCompat="@drawable/ic_success_payment"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/waiting_holder"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:layout_marginTop="50dp"
+            android:text="@string/waiting_for_payment_to_procedd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/circle_loading"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/circle_loading"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/circle_loading"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
