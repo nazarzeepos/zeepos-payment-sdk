@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">paymentSDK</string>
+    <string name="check_status">Check status</string>
+    <string name="transaction">transaction</string>
+    <string name="transaction_confirmed">Transaction Confirmed</string>
+    <string name="altopay_payment_integration">AltoPay Payment Integration</string>
+    <string name="waiting_for_payment_to_procedd">Waiting for payment to proceed</string>
+    <string name="ok">OK</string>
 </resources>

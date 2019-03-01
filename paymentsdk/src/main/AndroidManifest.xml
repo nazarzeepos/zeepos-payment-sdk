@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zeepos.paymentsdk" />
+    package="com.zeepos.paymentsdk" >
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+</manifest>

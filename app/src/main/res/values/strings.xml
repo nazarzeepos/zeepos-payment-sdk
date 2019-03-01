@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ZeeposPayment</string>
+    <string name="no_connected_printer">no connected printer</string>
+    <string name="no_active_printer">no active printer</string>
 </resources>
