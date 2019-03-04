@@ -1,9 +1,12 @@
 package com.zeepos.paymentsdk.view;
 
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.WriterException;
 import com.zeepos.paymentsdk.AltoPayListener;
 import com.zeepos.paymentsdk.Callback;
 import com.zeepos.paymentsdk.R;
@@ -36,12 +40,18 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
     OrderTransaction orderTransaction = new OrderTransaction();
     CheckStatusTransaction checkStatusTransaction = new CheckStatusTransaction();
 
+
+    String tradeNo = "";
+    boolean paid = false;
+    String message = "";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_transaction, container, false);
         FragmentHelper.getInstance().setFragmentManager(getFragmentManager());
         altoPayListener = (AltoPayListener) getContext();
+
         initView();
         initListener();
         startFragment();
@@ -50,6 +60,7 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
 
     @Override
     public void dismiss() {
+        super.dismiss();
     }
 
     private void initView() {
@@ -77,7 +88,14 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
                 public void onSuccess(int code, Order.Response body) {
                     Order order = bundle.getParcelable(Order.ORDER);
                     PrinterHelper.getInstance(getContext()).setOutputStream(print_id, PrinterType.BLUETOOTH);
-                    PrinterHelper.getInstance(getContext()).printPhoto(QrcodeGenerator.generateQRCodeImage(body.getUri()));
+                    try {
+                        Bitmap bitmap = QrcodeGenerator.encodeAsBitmap(body.getUri());
+                        altoPayListener.onQrCode(bitmap);
+                        tradeNo = body.getTrade_no();
+
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
                     query.getRequest()
                             .setApp_id(order.getRequest().getApp_id())
                             .setAccount_id(order.getRequest().getAccount_id())
@@ -87,7 +105,18 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
 
                 @Override
                 public void onFailed(int code, String message) {
-                    Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                }
+            });
+            orderTransaction.setPaymentResultCallback(new Callback<Query.Response>() {
+                @Override
+                public void onSuccess(int code, Query.Response body) {
+                    paid = true;
+                }
+
+                @Override
+                public void onFailed(int code, String message) {
+                    Transaction.this.message = message;
                 }
             });
             FragmentHelper.getInstance().replaceFragment(R.id.frame_content, orderTransaction, true, getChildFragmentManager().beginTransaction());
@@ -99,21 +128,25 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
     public void onClick(View v) {
         if (btnCheckStatus == v) {
             orderTransaction.checkPayment(query);
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelable(Query.QUERY,query);
-//            checkStatusTransaction.setArguments(bundle);
-//            checkStatusTransaction.setResultCallback(new Callback<PaymentResult.Response>() {
-//                @Override
-//                public void onSuccess(int code, PaymentResult.Response body) {
-//
-//                }
-//
-//                @Override
-//                public void onFailed(int code, String message) {
-//
-//                }
-//            });
-//            FragmentHelper.getInstance().replaceFragment(R.id.frame_content, checkStatusTransaction, false);
+        }
+        if (btnSubmit == v) {
+            if  (TextUtils.isEmpty(tradeNo) && paid) {
+                dismiss();
+            }else
+                Toast.makeText(getContext(),"Transaction not yet paid",Toast.LENGTH_LONG).show();
+        }
+        if (btnClose == v) {
+            dismiss();
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (TextUtils.isEmpty(tradeNo) && paid) {
+            altoPayListener.onSuccess(tradeNo);
+        } else {
+            altoPayListener.onfailed(message);
         }
     }
 }

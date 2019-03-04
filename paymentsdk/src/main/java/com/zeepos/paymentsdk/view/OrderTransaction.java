@@ -19,6 +19,7 @@ import com.zeepos.paymentsdk.Const;
 import com.zeepos.paymentsdk.Payment;
 import com.zeepos.paymentsdk.R;
 import com.zeepos.paymentsdk.model.Order;
+import com.zeepos.paymentsdk.model.PaymentResult;
 import com.zeepos.paymentsdk.model.Query;
 import com.zeepos.paymentsdk.rest.RestResponse;
 import com.zeepos.paymentsdk.util.QrcodeGenerator;
@@ -31,9 +32,13 @@ public class OrderTransaction extends Fragment {
     ImageView ivQrCode;
     Order order;
     public Callback<Order.Response> orderCallback;
-
+    public Callback<Query.Response> resultCallback;
     public void setOrderCallback(Callback<Order.Response> orderCallback) {
         this.orderCallback = orderCallback;
+    }
+
+    public void setPaymentResultCallback(Callback<Query.Response> resultCallback){
+        this.resultCallback = resultCallback;
     }
 
     @Nullable
@@ -87,6 +92,7 @@ public class OrderTransaction extends Fragment {
             @Override
             public void onSuccess(int code, RestResponse<Query.Response> body) {
                 Query.Response response = new Gson().fromJson(body.getData(), Query.Response.class);
+                resultCallback.onSuccess(code,response);
                 if (response.getTrade_status() == 1) {
                     tvTitle.setText("Transaction ID: "+ response.getTrade_no());
                     statusHolder.setVisibility(View.VISIBLE);
@@ -97,7 +103,7 @@ public class OrderTransaction extends Fragment {
 
             @Override
             public void onFailed(int code, String message) {
-
+                resultCallback.onFailed(code,message);
             }
         });
     }

@@ -56,7 +56,7 @@ public class AltoPay {
         return this;
     }
 
-    public AltoPay launch(){
+    public void launch(){
         if (order != null){
             Bundle bundle = new Bundle();
             bundle.putParcelable(Order.ORDER,order);
@@ -68,7 +68,6 @@ public class AltoPay {
         if (pay != null){
             //flow scan QR customer to merchant
         }
-        return this;
     }
 
 }
