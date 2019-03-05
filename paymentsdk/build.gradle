@@ -48,8 +48,8 @@ ext {
 
     libraryDescription = 'this is library alto payment method'
 
-    siteUrl = 'https://cartenz.visualstudio.com/ZeeEcosystem/_git/pay-android'
-    gitUrl = 'https://cartenz.visualstudio.com/ZeeEcosystem/_git/pay-android.git'
+    siteUrl = 'https://github.com/nazarzeepos/zeepos-payment-sdk'
+    gitUrl = 'https://github.com/nazarzeepos/zeepos-payment-sdk.git'
 
     libraryVersion = '0.0.1'
 
