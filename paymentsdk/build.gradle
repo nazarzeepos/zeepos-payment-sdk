@@ -51,7 +51,7 @@ ext {
     siteUrl = 'https://github.com/nazarzeepos/zeepos-payment-sdk'
     gitUrl = 'https://github.com/nazarzeepos/zeepos-payment-sdk.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.4'
 
     developerId = 'nazarabdullah'
     developerName = 'nazar abdullah'
@@ -152,7 +152,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.zxing:core:3.3.0'
-    implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
+    implementation 'com.google.zxing:javase:3.3.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'

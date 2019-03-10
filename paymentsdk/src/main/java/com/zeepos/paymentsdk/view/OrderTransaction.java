@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.zxing.WriterException;
 import com.zeepos.paymentsdk.Callback;
 import com.zeepos.paymentsdk.Const;
 import com.zeepos.paymentsdk.Payment;
@@ -46,6 +47,7 @@ public class OrderTransaction extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_transaction, container, false);
         initView(view);
+        initListener();
         initBundle();
         initData();
         return view;
@@ -59,19 +61,28 @@ public class OrderTransaction extends Fragment {
         ivQrCode = (ImageView) view.findViewById(R.id.qr_code);
     }
 
+    private void initListener(){
+//        showQrHolder.setVisibility(View.VISIBLE);
+//        waitingHolder.setVisibility(View.GONE);
+    }
+
     private void initBundle() {
         order = getArguments().getParcelable(Order.ORDER);
     }
 
     private void initData() {
-        waitingHolder.setVisibility(View.VISIBLE);
+//        waitingHolder.setVisibility(View.VISIBLE);
         Payment.Do.order(Const.TOKEN_SAMPLE, order, new Callback<RestResponse<Order.Response>>() {
             @Override
             public void onSuccess(int code, RestResponse<Order.Response> body) {
                 Order.Response response = new Gson().fromJson(body.getData(), Order.Response.class);
-                ivQrCode.setImageBitmap(QrcodeGenerator.generateQRCodeImage(response.getUri()));
+                try {
+                    ivQrCode.setImageBitmap(QrcodeGenerator.encodeAsBitmap(response.getUri()));
+                    orderCallback.onSuccess(code, response);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
 //                ivQrCode.setImageBitmap(QrcodeGenerator.generateQRCodeImage(body.getData().getUri()));
-                orderCallback.onSuccess(code, response);
             }
 
             @Override

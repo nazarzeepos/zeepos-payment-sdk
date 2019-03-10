@@ -23,8 +23,6 @@ import com.zeepos.paymentsdk.R;
 import com.zeepos.paymentsdk.helper.FragmentHelper;
 import com.zeepos.paymentsdk.model.Order;
 import com.zeepos.paymentsdk.model.Query;
-import com.zeepos.paymentsdk.util.PrinterHelper;
-import com.zeepos.paymentsdk.util.PrinterType;
 import com.zeepos.paymentsdk.util.QrcodeGenerator;
 
 public class Transaction extends DialogFragment implements View.OnClickListener {
@@ -50,7 +48,6 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_transaction, container, false);
         FragmentHelper.getInstance().setFragmentManager(getFragmentManager());
-        altoPayListener = (AltoPayListener) getContext();
 
         initView();
         initListener();
@@ -63,6 +60,9 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
         super.dismiss();
     }
 
+    public void setAltoPayListener(AltoPayListener altoPayListener){
+        this.altoPayListener = altoPayListener;
+    }
     private void initView() {
         container = (FrameLayout) view.findViewById(R.id.frame_content);
         btnClose = (ImageView) view.findViewById(R.id.iv_close);
@@ -87,7 +87,6 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
                 @Override
                 public void onSuccess(int code, Order.Response body) {
                     Order order = bundle.getParcelable(Order.ORDER);
-                    PrinterHelper.getInstance(getContext()).setOutputStream(print_id, PrinterType.BLUETOOTH);
                     try {
                         Bitmap bitmap = QrcodeGenerator.encodeAsBitmap(body.getUri());
                         altoPayListener.onQrCode(bitmap);

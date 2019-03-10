@@ -1,32 +1,15 @@
 package com.zeepos.zeepospaymentSample;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.Printer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.zeepos.paymentsdk.AltoPay;
 import com.zeepos.paymentsdk.AltoPayListener;
-import com.zeepos.paymentsdk.Callback;
 import com.zeepos.paymentsdk.Const;
-import com.zeepos.paymentsdk.Payment;
-import com.zeepos.paymentsdk.helper.FragmentHelper;
 import com.zeepos.paymentsdk.model.Order;
-import com.zeepos.paymentsdk.rest.RestResponse;
-import com.zeepos.paymentsdk.util.PrinterHelper;
-import com.zeepos.paymentsdk.view.Transaction;
-
-import java.io.OutputStream;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements AltoPayListener {
     public static final String APP_ID = "2";

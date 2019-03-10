@@ -63,6 +63,7 @@ public class AltoPay {
             bundle.putString("print_id",print_id);
             Transaction transaction = new Transaction();
             transaction.setArguments(bundle);
+            transaction.setAltoPayListener(altoPayListener);
             FragmentHelper.getInstance().showDialog(transaction,bundle,"order");
         }
         if (pay != null){
