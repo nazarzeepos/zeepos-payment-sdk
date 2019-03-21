@@ -3,18 +3,19 @@ package com.zeepos.paymentsdk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zeepos.paymentsdk.Const;
 import com.zeepos.paymentsdk.listener.ModelListener;
 
 
 public class Order extends BaseModel implements ModelListener, Parcelable {
-    public static final String ORDER ="order";
+    public static final String ORDER = "order";
     Request request = new Request();
     Response response = new Response();
+
     public class Request implements Parcelable {
         //request params;
+        private String mch_id;
         private String app_id;
         private String account_id;
         private String out_trade_no;
@@ -38,6 +39,15 @@ public class Order extends BaseModel implements ModelListener, Parcelable {
                 return new Request[size];
             }
         };
+
+        public String getMch_id() {
+            return mch_id;
+        }
+
+        public Request setMch_id(String mch_id) {
+            this.mch_id = mch_id;
+            return this;
+        }
 
         public String getApp_id() {
             return app_id;
@@ -149,6 +159,7 @@ public class Order extends BaseModel implements ModelListener, Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.mch_id);
             dest.writeString(this.app_id);
             dest.writeString(this.account_id);
             dest.writeString(this.out_trade_no);
@@ -163,6 +174,7 @@ public class Order extends BaseModel implements ModelListener, Parcelable {
         }
 
         protected Request(Parcel in) {
+            this.mch_id = in.readString();
             this.app_id = in.readString();
             this.account_id = in.readString();
             this.out_trade_no = in.readString();

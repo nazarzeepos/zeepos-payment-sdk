@@ -104,7 +104,10 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
 
                 @Override
                 public void onFailed(int code, String message) {
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                    if (message.toLowerCase().contains("paid")){
+                        orderTransaction.checkPayment(query);
+                   }else
+                   Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                 }
             });
             orderTransaction.setPaymentResultCallback(new Callback<Query.Response>() {
@@ -132,7 +135,7 @@ public class Transaction extends DialogFragment implements View.OnClickListener 
             if  (TextUtils.isEmpty(tradeNo) && paid) {
                 dismiss();
             }else
-                Toast.makeText(getContext(),"Transaction not yet paid",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Transaction not yet been paid",Toast.LENGTH_LONG).show();
         }
         if (btnClose == v) {
             dismiss();

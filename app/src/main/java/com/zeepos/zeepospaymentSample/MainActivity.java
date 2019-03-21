@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity implements AltoPayListener {
             public void onClick(View v) {
                 Order order = new Order();
                 order.getRequest()
-                        .setOut_trade_no("11111222")
+                        .setMch_id(Const.MCH_ID_SAMPLE)
+                        .setOut_trade_no("ODR15528977060002")
                         .setAmount(2000)
                         .setOperator_id("11112")
                         .setSubject("transaction1")
                         .setApp_id(APP_ID)
-                        .setAccount_id(ACCOUNT_ID)
+                        .setAccount_id("429")
                         .setTrade_type(Const.TRADE_TYPE.QR_CODE);
 
                 AltoPay altoPay = new AltoPay(MainActivity.this)

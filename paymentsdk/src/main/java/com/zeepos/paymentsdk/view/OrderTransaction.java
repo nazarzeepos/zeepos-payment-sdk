@@ -71,7 +71,7 @@ public class OrderTransaction extends Fragment {
     }
 
     private void initData() {
-//        waitingHolder.setVisibility(View.VISIBLE);
+        waitingHolder.setVisibility(View.VISIBLE);
         Payment.Do.order(Const.TOKEN_SAMPLE, order, new Callback<RestResponse<Order.Response>>() {
             @Override
             public void onSuccess(int code, RestResponse<Order.Response> body) {
@@ -82,7 +82,6 @@ public class OrderTransaction extends Fragment {
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
-//                ivQrCode.setImageBitmap(QrcodeGenerator.generateQRCodeImage(body.getData().getUri()));
             }
 
             @Override
